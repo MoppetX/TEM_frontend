@@ -28,7 +28,9 @@ services:
         build: TEM_frontend
         environment:
             PORT: '8080'
-            REACT_APP_API_URL: 'http://localhost:3000'
+            TEM_BACKEND_PORT: '3000'
+            TEM_FRONTEND_PORT: '8080'
+            REACT_APP_API_URL: 'http://localhost:${TEM_BACKEND_PORT}'
         ports:
             - ${TEM_FRONTEND_PORT:-8080}:8080
         depends_on:
@@ -48,6 +50,7 @@ services:
         environment:
             LOAD_SEED_DATA: 'true'
             MONGODB_CONNECTION_STRING: 'mongodb://mongodb/tem'
+            TEM_BACKEND_PORT: '3000'
             PORT: '3000'
         ports:
             - ${TEM_BACKEND_PORT:-3000}:3000
@@ -68,12 +71,15 @@ services:
         # - MONGO_INITDB_DATABASE='tem'
         # - MONGO_INITDB_ROOT_USERNAME='tem'
         # - MONGO_INITDB_ROOT_PASSWORD='secret'
+        environment:
+            MONGODB_PORT: '27107'
         healthcheck:
             test: echo 'db.runCommand("ping").ok' | mongo localhost:${MONGODB_PORT:-27017}/test --quiet
         volumes:
-            - ./tem-mongo-volume:/data/db
+            - ./tem-mongo-data-db:/data/db
         ports:
-            - ${MONGODB_PORT:-27017}:27017
+            # - ${MONGODB_PORT:-27017}:27017
+            - 27018:27017
 
     postgres:
         image: postgres
