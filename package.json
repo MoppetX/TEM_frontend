@@ -32,6 +32,7 @@
     "formik": "^2.0.6",
     "lint-staged": "^9.5.0",
     "mongoose": "^5.7.13",
+    "parcel-bundler": "^1.12.4",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
     "react-input-range": "^1.3.0",
@@ -55,7 +56,6 @@
     "eslint-plugin-react": "^7.17.0",
     "eslint-plugin-react-hooks": "^2.3.0",
     "husky": "^3.1.0",
-    "parcel-bundler": "^1.12.4",
     "prettier": "^1.19.1",
     "pretty-quick": "^2.0.1",
     "sass": "^1.23.7"
