@@ -1,102 +1,101 @@
 version: '2.4'
 
 services:
-    #    x-logging:
-    #        &my-logging
-    #            options:
-    #                max-size: '1m'
-    #                max-file: '5'
+  #    x-logging:
+  #        &my-logging
+  #            options:
+  #                max-size: '1m'
+  #                max-file: '5'
 
-    nginx-proxy:
-        image: jwilder/nginx-proxy
-        ports:
-            - '80:80'
-        volumes:
-            - /var/run/docker.sock:/tmp/docker.sock:ro
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    ports:
+      - '80:80'
+    volumes:
+      - /var/run/docker.sock:/tmp/docker.sock:ro
 
-    nginx:
-        image: nginx
-        environment:
-            - VIRTUAL_HOST=nadgerz.localhost
+  nginx:
+    image: nginx
+    environment:
+      - VIRTUAL_HOST=nadgerz.localhost
 
-    frontend:
-        image: tem-frontend:${TEM_FRONTEND_VERSION:-1}
-        logging:
-            options:
-                max-size: '1m'
-                max-file: '5'
-        build: TEM_frontend
-        environment:
-            PORT: '8080'
-            TEM_BACKEND_PORT: '3000'
-            TEM_FRONTEND_PORT: '8080'
-            REACT_APP_API_URL: 'http://localhost:${TEM_BACKEND_PORT}'
-        ports:
-            - ${TEM_FRONTEND_PORT:-8080}:8080
-        depends_on:
-            # this requires a compose file version >= 2.3 and < 3.0
-            backend:
-                condition: service_healthy
+  frontend:
+    image: tem-frontend:${TEM_FRONTEND_VERSION:-1}
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '5'
+    build: TEM_frontend
+    environment:
+      PORT: '8080'
+      TEM_FRONTEND_PORT: '8080'
+      REACT_APP_API_URL: 'http://localhost:3000'
+    ports:
+      - ${TEM_FRONTEND_PORT:-8080}:8080
+    depends_on:
+      # this requires a compose file version >= 2.3 and < 3.0
+      backend:
+        condition: service_healthy
 
-    backend:
-        image: tem-backend:${TEM_BACKEND_VERSION:-1}
-        logging:
-            options:
-                max-size: '1m'
-                max-file: '5'
-        build: TEM_backend
-        healthcheck:
-            test: curl -f http://127.0.0.1:${TEM_BACKEND_PORT:-3000}
-        environment:
-            LOAD_SEED_DATA: 'true'
-            MONGODB_CONNECTION_STRING: 'mongodb://mongodb/tem'
-            TEM_BACKEND_PORT: '3000'
-            PORT: '3000'
-        ports:
-            - ${TEM_BACKEND_PORT:-3000}:3000
-        depends_on:
-            db:
-                condition: service_healthy
-                # postgres:
-                # condition: service_healthy
-                # mongo:
-                # condition: service_healthy
-                # mysql:
-                # condition: service_healthy
+  backend:
+    image: tem-backend:${TEM_BACKEND_VERSION:-1}
+    logging:
+      options:
+        max-size: '1m'
+        max-file: '5'
+    build: TEM_backend
+    healthcheck:
+      test: echo "BANZAI backend healthcheck" && curl -f http://127.0.0.1:3000
+    environment:
+      LOAD_SEED_DATA: 'true'
+      MONGODB_CONNECTION_STRING: 'mongodb://mongodb/tem'
+      TEM_BACKEND_PORT: '3000'
+      PORT: '3000'
+    ports:
+      - ${TEM_BACKEND_PORT:-3000}:3000
+    depends_on:
+      db:
+        condition: service_healthy
+        # postgres:
+        # condition: service_healthy
+        # mongo:
+        # condition: service_healthy
+        # mysql:
+        # condition: service_healthy
 
-    db:
-        image: mongo:${MONGO_VERSION:-4}
-        # restart: on-failure
-        # environment:
-        # - MONGO_INITDB_DATABASE='tem'
-        # - MONGO_INITDB_ROOT_USERNAME='tem'
-        # - MONGO_INITDB_ROOT_PASSWORD='secret'
-        environment:
-            MONGODB_PORT: '27107'
-        healthcheck:
-            test: echo 'db.runCommand("ping").ok' | mongo localhost:${MONGODB_PORT:-27017}/test --quiet
-        volumes:
-            - ./tem-mongo-data-db:/data/db
-        ports:
-            # - ${MONGODB_PORT:-27017}:27017
-            - 27018:27017
+  db:
+    image: mongo:${MONGO_VERSION:-4}
+    # restart: on-failure
+    # environment:
+    # - MONGO_INITDB_DATABASE='tem'
+    # - MONGO_INITDB_ROOT_USERNAME='tem'
+    # - MONGO_INITDB_ROOT_PASSWORD='secret'
+    environment:
+      MONGODB_PORT: '27107'
+    healthcheck:
+      test: echo "BANZAI db healthcheck" && echo 'db.runCommand("ping").ok' | mongo localhost:${MONGODB_PORT:-27017}/test --quiet
+    volumes:
+      - ./tem-mongo-data-db:/data/db
+    ports:
+      # - ${MONGODB_PORT:-27017}:27017
+      - 27018:27017
 
-    postgres:
-        image: postgres
-        healthcheck:
-            disable: true # test: ["NONE"]
-            # test: pg_isready -U postgres -h 127.0.0.1
+  postgres:
+    image: postgres
+    healthcheck:
+      disable: true # test: ["NONE"]
+      # test: echo "BANZAI postgres healthcheck" && pg_isready -U postgres -h 127.0.0.1
 
-    mongo:
-        image: mongo
-        healthcheck:
-            disable: true # test: ["NONE"]
-            # test: echo 'db.runCommand("ping").ok' | mongo localhost:${MONGODB_PORT:-27017}/test --quiet
+  mongo:
+    image: mongo
+    healthcheck:
+      disable: true # test: ["NONE"]
+      # test: echo "BANZAI mongo healthcheck" && echo 'db.runCommand("ping").ok' | mongo localhost:${MONGODB_PORT:-27017}/test --quiet
 
-    mysql:
-        image: mysql
-        healthcheck:
-            disable: true # test: ["NONE"]
-            # test: mysqladmin ping -h 127.0.0.1
-        environment:
-            - MYSQL_ALLOW_EMPTY_PASSWORD=true
+  mysql:
+    image: mysql
+    healthcheck:
+      disable: true # test: ["NONE"]
+      # test: echo "BANZAI mysql healthcheck" && mysqladmin ping -h 127.0.0.1
+    environment:
+      - MYSQL_ALLOW_EMPTY_PASSWORD=true
