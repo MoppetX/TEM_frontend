@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from '@reach/router';
 
 import HeartTag from './HeartTag';
-import defaultImage from '../../public/default.jpeg'
+import defaultImage from '../../public/default.jpeg';
 
 import '../assets/CSS/components/RecipeCard.css';
 
@@ -16,6 +16,8 @@ const RecipeCard = props => {
 
   return (
     <Link to={`recipe/${id}`} className="recipe-card">
+      {/* make this a button */}
+      {/* create a helper function to update / save state in the parent component? */}
       <HeartTag favourite={favourite} />
 
       <div className={'recipe-card-title'}>
