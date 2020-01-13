@@ -11,7 +11,7 @@ import { AXIOS, createKey } from '../../utils/util';
 import AddRecipeCard from '../AddRecipeCard';
 import Filters from '../Filters';
 import RecipeCard from '../RecipeCard';
-import Spinner from '../Spinner';
+import Loader from '../Loader';
 
 import '../../assets/CSS/pages/Overview.scss';
 
@@ -153,11 +153,10 @@ class Overview extends React.Component {
           <h2>
             Your Recipes <span>{recipes.length} found</span>
           </h2>
-
           <div className={'recipe-grid'}>
             <AddRecipeCard />
             {isLoading ? (
-              <Spinner />
+              <Loader />
             ) : recipes.length === 0 ? (
               <h3>No Recipes found</h3>
             ) : (

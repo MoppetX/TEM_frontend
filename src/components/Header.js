@@ -1,5 +1,5 @@
-// import { Link } from '@reach/router';
 import React from 'react';
+import { Link } from '@reach/router';
 
 import '../assets/CSS/components/Header.css';
 import { MenuIcon } from '../assets/SVG/svg';
@@ -9,18 +9,12 @@ const Header = () => {
     <header>
       <h1 className={'hidden'}>The Eternal Menu</h1>
 
-      <div className="main-menu">
+      <Link to={'/'} className="main-menu">
         <div>
           <strong>TEM</strong>
           <MenuIcon />
         </div>
-      </div>
-
-      {/*<div className="site-branding">*/}
-      {/*  <Link to={'/'}>*/}
-      {/*    TEM*/}
-      {/*  </Link>*/}
-      {/*</div>*/}
+      </Link>
     </header>
   );
 };
