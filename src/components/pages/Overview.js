@@ -5,13 +5,15 @@ import axios from 'axios';
 
 const serverPath = process.env.REACT_APP_API_URL || 'http://localhost:3000';
 
-import { AXIOS, createKey, getTrueMiddle } from '../../utils/util';
+// eslint-disable-next-line
+import { AXIOS, createKey } from '../../utils/util';
+// import { AXIOS, createKey, getTrueMiddle } from '../../utils/util';
 import AddRecipeCard from '../AddRecipeCard';
 import Filters from '../Filters';
 import RecipeCard from '../RecipeCard';
+import Spinner from '../Spinner';
 
 import '../../assets/CSS/pages/Overview.scss';
-import Pet from '../Pet';
 
 class Overview extends React.Component {
   constructor(props) {
@@ -19,8 +21,7 @@ class Overview extends React.Component {
 
     this.state = {
       user: null,
-      // TODO: Spinner component
-      isLoading: false,
+      isLoading: true,
       recipes: [],
       recipeImages: [],
       cookingTimeValues: {},
@@ -54,14 +55,18 @@ class Overview extends React.Component {
       // const cookingTimeValues = this.findValues(recipes, 'cookingTime');
       // const servingSizeValues = this.findValues(recipes, 'servingSize');
 
+      const isLoading = false;
+
       this.setState({
         user,
         recipes,
         recipeImages,
+        isLoading,
         // cookingTimeValues,
         // servingSizeValues,
       });
     } catch (err) {
+      // eslint-disable-next-line
       console.error(err.message);
     }
   };
@@ -130,6 +135,7 @@ class Overview extends React.Component {
     const {
       recipes,
       recipeImages,
+      isLoading,
       // cookingTimeValues,
       // servingSizeValues,
     } = this.state;
@@ -149,23 +155,24 @@ class Overview extends React.Component {
           </h2>
 
           <div className={'recipe-grid'}>
-            <AddRecipeCard/>
-            {
-              recipes.length === 0 ? (<h3>No Recipes found</h3>) :
-                (
-                  recipes.map((recipe, index) => {
-                    return (
-                      <RecipeCard
-                        id={recipe._id}
-                        img={recipeImages[index]}
-                        title={recipe.title}
-                        favourite={recipe.favourite}
-                        key={createKey(recipe.title, index)}
-                      />
-                    );
-                  })
-                )
-            }
+            <AddRecipeCard />
+            {isLoading ? (
+              <Spinner />
+            ) : recipes.length === 0 ? (
+              <h3>No Recipes found</h3>
+            ) : (
+              recipes.map((recipe, index) => {
+                return (
+                  <RecipeCard
+                    id={recipe._id}
+                    img={recipeImages[index]}
+                    title={recipe.title}
+                    favourite={recipe.favourite}
+                    key={createKey(recipe.title, index)}
+                  />
+                );
+              })
+            )}
           </div>
         </article>
       </div>
