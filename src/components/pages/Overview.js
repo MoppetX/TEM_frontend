@@ -151,7 +151,8 @@ class Overview extends React.Component {
 
         <article id="recipes" className={'user-recipes'}>
           <h2>
-            Your Recipes <span>{recipes.length} found</span>
+            Your Recipes
+            <span>{isLoading ? 'loading...' : `${recipes.length} found`}</span>
           </h2>
           <div className={'recipe-grid'}>
             <AddRecipeCard />
