@@ -1,18 +1,19 @@
-import React, { Component, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import InputRange from 'react-input-range';
 
-const { getTrueMiddle } = require('../utils/util');
 import axios from 'axios';
 
-const serverPath = process.env.REACT_APP_API_URL || 'http://localhost:3000';
-import { AXIOS } from '../utils/util';
+const { getTrueMiddle } = require('../utils/util');
+import { serverPath } from '../utils/API';
 
 import { CookingTimeIcon, ServingSizeIcon } from '../assets/SVG/svg';
 import '../assets/CSS/components/Filters.scss';
 import '../assets/CSS/components/inputRange.css';
 
 const Filters = props => {
-  const { handleFilterUpdate, data } = props;
+  // TODO: pass down state...
+  // const { handleFilterUpdate, data } = props;
+  const { handleFilterUpdate } = props;
 
   const [cookingTimeValues, setCookingTimeValues] = useState({
     min: 0,
@@ -27,12 +28,12 @@ const Filters = props => {
   });
 
   useEffect(() => {
-    console.log('USE_EFFECT');
-    console.log('data');
-    console.log(data);
+    // console.log('USE_EFFECT');
+    // console.log('data');
+    // console.log(data);
 
     async function fetchData() {
-      return await AXIOS.recipe.GET_ALL;
+      return await axios.get(`${serverPath}/recipe/all`);
     }
 
     fetchData().then(res => {
