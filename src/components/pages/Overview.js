@@ -3,11 +3,9 @@ import React from 'react';
 // const serverPath = config.get('serverPath');
 import axios from 'axios';
 
-const serverPath = process.env.REACT_APP_API_URL || 'http://localhost:3000';
+import { createKey } from '../../utils/util';
+import { serverPath } from '../../utils/API';
 
-// eslint-disable-next-line
-import { AXIOS, createKey } from '../../utils/util';
-// import { AXIOS, createKey, getTrueMiddle } from '../../utils/util';
 import AddRecipeCard from '../AddRecipeCard';
 import Filters from '../Filters';
 import RecipeCard from '../RecipeCard';
@@ -32,8 +30,6 @@ class Overview extends React.Component {
   }
 
   componentDidMount() {
-    // console.log('did mount');
-    // this.getDataFromDbUsingFetch();
     this.fetchData();
   }
 
@@ -42,7 +38,7 @@ class Overview extends React.Component {
       let res;
 
       // fetch user
-      res = await AXIOS.user.GET_ALL;
+      res = await axios.get(`${serverPath}/user/all`);
       const user = res.data[0];
 
       // get recipes of user
