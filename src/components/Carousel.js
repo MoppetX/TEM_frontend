@@ -19,6 +19,7 @@ class Carousel extends React.Component {
   }
 
   handleIndexClick = event => {
+    // the arrow function keeps the scope of where it was defined (this)
     this.setState({
       // '+' coerces the string that's returned from the DOM to a number
       active: +event.target.dataset.index,
