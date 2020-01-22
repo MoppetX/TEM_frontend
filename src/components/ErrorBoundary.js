@@ -1,10 +1,13 @@
 import React, { Component } from 'react';
-import { Link } from '@reach/router';
+import { Link, Redirect } from '@reach/router';
 
 class ErrorBoundary extends Component {
   constructor(props) {
     super(props);
-    this.state = { hasError: false };
+    this.state = {
+      hasError: false,
+      redirect: false,
+    };
   }
 
   static getDerivedStateFromError() {
@@ -17,7 +20,18 @@ class ErrorBoundary extends Component {
     console.error('ErrorBoundary caught an error', error, errorInfo);
   }
 
+  // after an error was caught, state changed so this gets triggered
+  componentDidUpdate() {
+    if (this.state.redirect) {
+      setTimeout(() => this.setState({ redirect: true }), 5000);
+    }
+  }
+
   render() {
+    if (this.state.redirect) {
+      return <Redirect to={'/'} noThrow />;
+    }
+
     if (this.state.hasError) {
       return (
         <h2>
