@@ -7,7 +7,7 @@ import Header from './components/Header';
 import Overview from './components/pages/Overview';
 import Details from './components/pages/Details';
 import Recipe from './components/pages/Recipe';
-// import SearchParams from './components/SearchParams';
+import SearchParams from './components/SearchParams';
 
 import './assets/CSS/App.css';
 import './assets/CSS/styles2.css';
@@ -17,13 +17,13 @@ const App = () => {
     // strictMode will warn you if you try to use a react feature they want to deprecate soon
     // will do nothing in production
     <React.StrictMode>
-      <Header/>
+      <Header />
 
       <main id={'main'}>
         <Router>
-          {/*<SearchParams path={'/'}/>*/}
-          <Overview path={'/'}/>
-          <Details path={'/details/:id'}/>
+          <SearchParams path={'/'} />
+          <Details path={'/details/:id'} />
+          <Overview path={'/'} />
           <Recipe path={'recipe/:id'} />
         </Router>
         {/*<FormikLogin />*/}
