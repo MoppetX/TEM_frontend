@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import pet from '@frontendmasters/pet';
 
 import Carousel from '../Carousel';
+import ErrorBoundary from '../ErrorBoundary';
 // import { DebugDump } from '../../utils/snippets';
 
 class Details extends Component {
@@ -47,4 +48,13 @@ class Details extends Component {
   }
 }
 
-export default Details;
+export default function DetailsErrorBoundary(props) {
+  // spread operator to avoid props={props}
+  // only use if the props are not being used by the current component (ErrorBoundary)
+  // and are just being passed on
+  return (
+    <ErrorBoundary>
+      <Details {...props} />
+    </ErrorBoundary>
+  );
+}
