@@ -11,27 +11,38 @@ import SearchParams from './components/SearchParams';
 
 import './assets/CSS/App.css';
 import './assets/CSS/styles2.css';
+import ErrorBoundary from './components/ErrorBoundary';
 
 const App = () => {
   return (
     // strictMode will warn you if you try to use a react feature they want to deprecate soon
     // will do nothing in production
     <React.StrictMode>
-      <Header />
+      <ErrorBoundary>
+        <Header />
 
-      <main id={'main'}>
-        <Router>
-          <SearchParams path={'/'} />
-          <Details path={'/details/:id'} />
-          <Overview path={'/'} />
-          <Recipe path={'recipe/:id'} />
-        </Router>
-        {/*<FormikLogin />*/}
-        {/*<FormikLogin email={'andrew@test.de'}/>*/}
-        {/*<RecipeForm />*/}
-      </main>
+        <main id={'main'}>
+          <Router>
+            <SearchParams path={'/'} />
+            <Details path={'/details/:id'} />
+            <Overview path={'/'} />
+            <Recipe path={'recipe/:id'} />
+          </Router>
+          {/*<FormikLogin />*/}
+          {/*<FormikLogin email={'andrew@test.de'}/>*/}
+          {/*<RecipeForm />*/}
+        </main>
+      </ErrorBoundary>
     </React.StrictMode>
   );
 };
+
+// export default function AppErrorBoundary() {
+//   return (
+//     <ErrorBoundary>
+//       <App />
+//     </ErrorBoundary>
+//   );
+// }
 
 export default App;
