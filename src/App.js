@@ -23,10 +23,10 @@ const App = () => {
 
         <main id={'main'}>
           <Router>
-            <SearchParams path={'/'} />
-            <Details path={'/details/:id'} />
             <Overview path={'/'} />
             <Recipe path={'recipe/:id'} />
+            <SearchParams path={'/'} />
+            <Details path={'/details/:id'} />
           </Router>
         </main>
       </ErrorBoundary>
