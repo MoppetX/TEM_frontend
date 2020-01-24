@@ -28,9 +28,6 @@ const App = () => {
             <Overview path={'/'} />
             <Recipe path={'recipe/:id'} />
           </Router>
-          {/*<FormikLogin />*/}
-          {/*<FormikLogin email={'andrew@test.de'}/>*/}
-          {/*<RecipeForm />*/}
         </main>
       </ErrorBoundary>
     </React.StrictMode>
