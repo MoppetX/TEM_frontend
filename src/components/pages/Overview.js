@@ -76,6 +76,7 @@ class Overview extends React.Component {
 
   getImages = async recipes => {
     // it's not recipe.img anymore, but recipe.images.large -> array
+    console.log(recipes[0].images.thumb);
 
     const promisedImages = recipes.map(async recipe => {
       // const res = await axios
