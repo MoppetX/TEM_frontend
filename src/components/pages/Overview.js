@@ -75,14 +75,17 @@ class Overview extends React.Component {
   };
 
   getImages = async recipes => {
+    // it's not recipe.img anymore, but recipe.images.large -> array
+    console.log(recipes[0].images.thumb);
+
     const promisedImages = recipes.map(async recipe => {
-      const res = await axios
-        .get(`${serverPath}/recipe/${recipe._id}/img/${recipe.img}`, {
+      // const res = await axios
+      return await axios
+        .get(`${serverPath}/recipe/${recipe._id}/img/${recipe.images.thumb}`, {
           responseType: 'arraybuffer',
         })
         .then(res => Buffer.from(res.data, 'binary').toString('base64'));
-
-      return res;
+      // return res
     });
 
     return Promise.all(promisedImages);
