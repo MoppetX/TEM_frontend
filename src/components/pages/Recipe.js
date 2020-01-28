@@ -5,6 +5,7 @@ import { serverPath } from '../../utils/API';
 
 import HeartTag from '../HeartTag';
 import { CookingTimeIcon, ServingSizeIcon } from '../../assets/SVG/svg';
+import defaultImg from '../../assets/img/default.jpeg';
 import '../../assets/CSS/pages/Recipe.scss';
 
 class Recipe extends React.Component {
@@ -16,7 +17,7 @@ class Recipe extends React.Component {
       recipe: {
         versions: [],
       },
-      img: '',
+      images: '',
       version: {
         directions: [],
         notes: [],
@@ -34,16 +35,36 @@ class Recipe extends React.Component {
       // get recipe data
       let res = await axios.get(`${serverPath}/recipe/${this.state.id}`);
       const recipe = res.data;
+      const binaryImages = recipe.images.large;
       const currentVersion = recipe.versions[0];
+      // const recipeImgUrl = `${serverPath}/recipe/${recipe._id}/img/${binaryImages[0]}`;
+      // console.log(recipeImgUrl);
 
-      // get img for recipe
-      const img = await axios
-        .get(`${serverPath}/recipe/${recipe._id}/img/${recipe.img}`, {
-          responseType: 'arraybuffer',
-        })
-        .then(res => Buffer.from(res.data, 'binary').toString('base64'));
+      // get imgs for recipe
+      // debugger
+      const promisedImages = binaryImages.map(async img => {
+        return await axios
+          .get(`${serverPath}/recipe/${recipe._id}/img/${img}`, {
+            responseType: 'arraybuffer',
+          })
+          .then(res => Buffer.from(res.data, 'binary').toString('base64'));
+      });
+      console.log('promised');
+      console.log(promisedImages);
+      const images = (await Promise.all(promisedImages)) || defaultImg;
+      console.log('images');
+      console.log(images);
 
-      this.setState({ recipe, img, version: currentVersion });
+      //  getRecipes = async user => {
+      //     const promisedRecipes = user.recipes.map(async recipeId => {
+      //       const res = await axios.get(`${serverPath}/recipe/${recipeId}`);
+      //       return res.data;
+      //     });
+      //     return Promise.all(promisedRecipes);
+      //   };
+
+      // this.setState({ recipe, version: currentVersion });
+      this.setState({ recipe, images, version: currentVersion });
     } catch (err) {
       console.log(err);
     }
@@ -56,7 +77,7 @@ class Recipe extends React.Component {
   };
 
   render() {
-    const { recipe, img, version } = this.state;
+    const { recipe, images, version } = this.state;
 
     return (
       <div id={'recipe'} className={'recipe'}>
@@ -84,8 +105,16 @@ class Recipe extends React.Component {
 
           <div className="right">
             <div className="img">
-              <img src={`data:image/jpeg;base64, ${img}`} alt="" />
+              {/*<img src={defaultImg} alt=""/>*/}
+              <img src={`data:image/jpeg;base64, ${images[0]}`} alt="" />
             </div>
+            {/*{*/}
+            {/*  images.map(img => (*/}
+            {/*    <div className="img">*/}
+            {/*      <img src={`data:image/jpeg;base64, ${img}`} alt=""/>*/}
+            {/*    </div>*/}
+            {/*  ))*/}
+            {/*}*/}
           </div>
         </div>
 
