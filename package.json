@@ -2,7 +2,7 @@
   "name": "TheEternalMenu",
   "version": "1.0.0",
   "description": "## The Eternal Menu",
-  "main": "index.js",
+  "main": "index.html",
   "scripts": {
     "dev": "parcel public/index.html",
     "dev:mock": "cross-env PET_MOCK=mock npm run dev",
@@ -10,7 +10,7 @@
     "format:full": "prettier --write \"src/**/*.{js,jsx,css,htm,json,ts,html,sass,scss}\"",
     "lint": "lint-staged",
     "test": "echo no test specified",
-    "start": "npm run start:prod",
+    "start": "npm run dev",
     "start:prod": "parcel public/index.html",
     "start:prod:local": "parcel public/index.html"
   },
