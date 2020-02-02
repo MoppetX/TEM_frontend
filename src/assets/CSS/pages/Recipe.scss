@@ -26,7 +26,6 @@ $recipe-img: 36rem;
   }
 
   .right {
-    border-radius: var(--corner-radius);
     width: $recipe-img;
     overflow: hidden;
     margin-left: var(--padding-big);
@@ -43,8 +42,9 @@ $recipe-img: 36rem;
 
   // S P E C I F I C
   .top {
+    border: 2px solid crimson;
+
     .icons {
-      //border: 1px solid black;
       margin-bottom: var(--padding-small);
     }
 
@@ -56,13 +56,6 @@ $recipe-img: 36rem;
       padding-bottom: 0;
 
       .versions {
-        //width: 100%;
-        //border-bottom: 1px solid red;
-        //.bar {
-        //  width: 100%;
-        //  height: 1rem;
-        //  border: 1px solid red;
-        //}
         position: relative;
 
         .heart-tag {
@@ -91,13 +84,32 @@ $recipe-img: 36rem;
     .right {
       padding: 0;
 
-      .img {
+      .recipe-images {
+        //border: 2px solid black;
+        position: relative;
         height: $recipe-img;
-        //width: $recipe-img;
         max-width: 100%;
 
-        img {
-          background-color: var(--color-highlight-light-bg);
+        .carousel-smaller {
+          border: 1px dashed black;
+          height: 100%;
+          width: auto;
+          //display: inline-block;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+
+        .img {
+          border-radius: var(--corner-radius);
+          overflow: hidden;
+          //height: $recipe-img;
+          ////width: $recipe-img;
+          //max-width: 100%;
+
+          img {
+            background-color: var(--color-highlight-light-bg);
+          }
         }
       }
     }

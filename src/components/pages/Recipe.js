@@ -17,7 +17,7 @@ class Recipe extends React.Component {
       recipe: {
         versions: [],
       },
-      images: '',
+      images: [defaultImg],
       version: {
         directions: [],
         notes: [],
@@ -37,8 +37,6 @@ class Recipe extends React.Component {
       const recipe = res.data;
       const binaryImages = recipe.images.large;
       const currentVersion = recipe.versions[0];
-      // const recipeImgUrl = `${serverPath}/recipe/${recipe._id}/img/${binaryImages[0]}`;
-      // console.log(recipeImgUrl);
 
       // get imgs for recipe
       // debugger
@@ -49,19 +47,8 @@ class Recipe extends React.Component {
           })
           .then(res => Buffer.from(res.data, 'binary').toString('base64'));
       });
-      console.log('promised');
-      console.log(promisedImages);
-      const images = (await Promise.all(promisedImages)) || defaultImg;
-      console.log('images');
-      console.log(images);
 
-      //  getRecipes = async user => {
-      //     const promisedRecipes = user.recipes.map(async recipeId => {
-      //       const res = await axios.get(`${serverPath}/recipe/${recipeId}`);
-      //       return res.data;
-      //     });
-      //     return Promise.all(promisedRecipes);
-      //   };
+      const images = (await Promise.all(promisedImages)) || defaultImg;
 
       // this.setState({ recipe, version: currentVersion });
       this.setState({ recipe, images, version: currentVersion });
@@ -104,9 +91,17 @@ class Recipe extends React.Component {
           </div>
 
           <div className="right">
-            <div className="img">
-              {/*<img src={defaultImg} alt=""/>*/}
-              <img src={`data:image/jpeg;base64, ${images[0]}`} alt="" />
+            <div className="recipe-images">
+              <div className="img">
+                <img src={`data:image/jpeg;base64, ${images[0]}`} alt="" />
+              </div>
+              <div className="img">
+                <img
+                  src={`data:image/jpeg;base64, ${images[1]}`}
+                  className={'carousel-smaller'}
+                  alt=""
+                />
+              </div>
             </div>
             {/*{*/}
             {/*  images.map(img => (*/}
